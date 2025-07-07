@@ -1,0 +1,19 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy.yml
+    secrets:
+      KUBECONFIG: ${{ secrets.KUBECONFIG }}
+      MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+    with:
+      MONGO_URI: "mongodb://mongo:27017"
+    vars:
+      NAMESPACE: dev
+      REPLICAS: 2
+      MONGO_USERNAME: "admin"
+      DOCKERHUB_USERNAME: "yourdockerhubusername"
